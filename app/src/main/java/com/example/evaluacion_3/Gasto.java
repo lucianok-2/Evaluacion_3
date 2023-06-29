@@ -2,7 +2,7 @@ package com.example.evaluacion_3;
 
 public class Gasto {
     private long id;
-    private String categoria; // Agregada la variable categoria
+    private String categoria;
     private String nombre;
     private float precio;
     private String fecha;
@@ -38,8 +38,16 @@ public class Gasto {
         return precio;
     }
 
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
+
     public String getFecha() {
         return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public double getLatitud() {
@@ -48,5 +56,12 @@ public class Gasto {
 
     public double getLongitud() {
         return longitud;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setNombre(String nombreGasto) {
     }
 }

@@ -79,13 +79,47 @@ public class DbGastos {
         return rowsAffected > 0;
     }
 
-    public boolean eliminarGasto(int id) {
+    public boolean eliminarGasto(long  id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int rowsAffected = db.delete(DbHelper.TABLE_GASTOS, DbHelper.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)});
         db.close();
         return rowsAffected > 0;
     }
+
+    public Gasto obtenerGastoPorId(int id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Gasto gasto = null;
+        String query = "SELECT * FROM " + DbHelper.TABLE_GASTOS + " WHERE " + DbHelper.COLUMN_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()) {
+            int columnIndexCategoria = cursor.getColumnIndex(DbHelper.COLUMN_CATEGORIA);
+            int columnIndexNombre = cursor.getColumnIndex(DbHelper.COLUMN_NOMBRE_GASTO);
+            int columnIndexPrecio = cursor.getColumnIndex(DbHelper.COLUMN_PRECIO);
+            int columnIndexFecha = cursor.getColumnIndex(DbHelper.COLUMN_FECHA);
+            int columnIndexLatitud = cursor.getColumnIndex(DbHelper.COLUMN_LATITUD);
+            int columnIndexLongitud = cursor.getColumnIndex(DbHelper.COLUMN_LONGITUD);
+
+            String categoria = cursor.getString(columnIndexCategoria);
+            String nombre = cursor.getString(columnIndexNombre);
+            float precio = cursor.getFloat(columnIndexPrecio);
+            String fecha = cursor.getString(columnIndexFecha);
+            double latitud = cursor.getDouble(columnIndexLatitud);
+            double longitud = cursor.getDouble(columnIndexLongitud);
+
+            gasto = new Gasto(categoria, nombre, precio, fecha, latitud, longitud);
+            gasto.setId(id);
+        }
+
+        cursor.close();
+        db.close();
+        return gasto;
+    }
+
+
+
 }
+
 
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textview_nombre_gasto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre del gasto" />
+
+    <EditText
+        android:id="@+id/edittext_nombre_gasto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingrese el nombre del gasto" />
+
+    <TextView
+        android:id="@+id/textview_cantidad_gasto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cantidad del gasto" />
+
+    <EditText
+        android:id="@+id/edittext_cantidad_gasto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="Ingrese la cantidad del gasto" />
+
+    <TextView
+        android:id="@+id/textview_fecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha del gasto" />
+
+    <EditText
+        android:id="@+id/edittext_fecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:hint="Seleccione la fecha del gasto" />
+
+    <TextView
+        android:id="@+id/textview_categoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categoría del gasto" />
+
+    <Spinner
+        android:id="@+id/spinner_categoria_editar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_guardar_cambios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar cambios" />
+
+    <Button
+        android:id="@+id/btn_eliminar_gasto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eliminar gasto" />
+
+</LinearLayout>
