@@ -32,34 +32,45 @@ public class Presupuesto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presupuesto);
 
+        // Inicializar vistas
         editTextNombreGasto = findViewById(R.id.edittext_nombre_gasto);
         editTextCantidadGasto = findViewById(R.id.edittext_cantidad_gasto);
         editTextFecha = findViewById(R.id.edittext_fecha);
         btnEnviar = findViewById(R.id.btnEnviar);
         spinnerCategoria = findViewById(R.id.spinner_categoria);
 
+        // Inicializar base de datos y adaptador
         dbGastos = new DbGastos(this);
         listaGastos = new ArrayList<>();
         gastoAdapter = new PresupuestoAdapter(this, listaGastos);
 
+        // Configurar RecyclerView
         RecyclerView recyclerViewMontos = findViewById(R.id.recyclerview_montos);
         recyclerViewMontos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewMontos.setAdapter(gastoAdapter);
 
+        // Actualizar la lista de gastos
+        actualizarListaGastos();
+
+        // Configurar el botón de enviar
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Obtener datos del formulario
                 String nombreGasto = editTextNombreGasto.getText().toString();
                 String cantidadGastoString = editTextCantidadGasto.getText().toString();
                 String fecha = editTextFecha.getText().toString();
 
-                if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty() ) {
+                if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty()) {
+                    // Obtener categoría seleccionada
                     String categoria = spinnerCategoria.getSelectedItem().toString();
 
+                    // Convertir cantidad a número flotante
                     float cantidadGasto = Float.parseFloat(cantidadGastoString);
                     double latitud = obtenerLatitud(); // Obtener la latitud desde el GPS
                     double longitud = obtenerLongitud(); // Obtener la longitud desde el GPS
 
+                    // Crear nuevo gasto
                     Gasto gasto = new Gasto(categoria, nombreGasto, cantidadGasto, fecha, latitud, longitud);
                     long id = dbGastos.insertarGasto(gasto);
 
@@ -76,6 +87,12 @@ public class Presupuesto extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void actualizarListaGastos() {
+        listaGastos.clear();
+        listaGastos.addAll(dbGastos.obtenerTodosLosGastos());
+        gastoAdapter.notifyDataSetChanged();
     }
 
     private double obtenerLatitud() {
