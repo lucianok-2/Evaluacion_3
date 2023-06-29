@@ -1,0 +1,18 @@
+<resources>
+    <string-array name="fecha_pago_entries">
+        <item>Pago el 5</item>
+        <item>Pago el 10</item>
+        <item>Pago el 15</item>
+        <item>Pago el 30</item>
+    </string-array>
+    <string-array name="categorias">
+        <item>Alimentación</item>
+        <item>Arriendo/Hipoteca</item>
+        <item>Transporte</item>
+        <item>Servicios básicos</item>
+        <item>Educación</item>
+        <item>Deudas</item>
+        <item>Ahorro e Inversiones</item>
+    </string-array>
+
+</resources>

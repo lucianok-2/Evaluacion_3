@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:defaultValue="0"
+            app:key="pref_key_presupuesto"
+            app:title="Presupuesto"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:key="pref_key_fecha_pago"
+            app:title="Fecha de Pago"
+            app:entries="@array/fecha_pago_entries"
+            app:entryValues="@array/fecha_pago_entries"
+            app:useSimpleSummaryProvider="true"/>
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
