@@ -4,76 +4,46 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
 
 import com.example.evaluacion_3.Gasto;
-import com.example.evaluacion_3.Presupuesto;
 
 import java.util.ArrayList;
 
-public class DbGastos extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "gastos.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_GASTOS = "gastos";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_CATEGORIA = "categoria";
-    private static final String COLUMN_NOMBRE = "nombre";
-    private static final String COLUMN_PRECIO = "precio";
-    private static final String COLUMN_FECHA = "fecha";
-    private static final String COLUMN_LATITUD = "latitud";
-    private static final String COLUMN_LONGITUD = "longitud";
+public class DbGastos {
+    private DbHelper dbHelper;
 
     public DbGastos(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String CREATE_GASTOS_TABLE = "CREATE TABLE " + TABLE_GASTOS + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_CATEGORIA + " TEXT,"
-                + COLUMN_NOMBRE + " TEXT,"
-                + COLUMN_PRECIO + " REAL,"
-                + COLUMN_FECHA + " TEXT,"
-                + COLUMN_LATITUD + " REAL,"
-                + COLUMN_LONGITUD + " REAL"
-                + ")";
-        db.execSQL(CREATE_GASTOS_TABLE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GASTOS);
-        onCreate(db);
+        dbHelper = new DbHelper(context);
     }
 
     public long insertarGasto(Gasto gasto) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CATEGORIA, gasto.getCategoria());
-        values.put(COLUMN_NOMBRE, gasto.getNombre());
-        values.put(COLUMN_PRECIO, gasto.getPrecio());
-        values.put(COLUMN_FECHA, gasto.getFecha());
-        values.put(COLUMN_LATITUD, gasto.getLatitud());
-        values.put(COLUMN_LONGITUD, gasto.getLongitud());
-        long id = db.insert(TABLE_GASTOS, null, values);
+        values.put(DbHelper.COLUMN_CATEGORIA, gasto.getCategoria());
+        values.put(DbHelper.COLUMN_NOMBRE_GASTO, gasto.getNombre());
+        values.put(DbHelper.COLUMN_PRECIO, gasto.getPrecio());
+        values.put(DbHelper.COLUMN_FECHA, gasto.getFecha());
+        values.put(DbHelper.COLUMN_LATITUD, gasto.getLatitud());
+        values.put(DbHelper.COLUMN_LONGITUD, gasto.getLongitud());
+        long id = db.insert(DbHelper.TABLE_GASTOS, null, values);
         db.close();
         return id;
     }
 
     public ArrayList<Gasto> obtenerTodosLosGastos() {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Gasto> listaGastos = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_GASTOS;
+        String query = "SELECT * FROM " + DbHelper.TABLE_GASTOS;
         Cursor cursor = db.rawQuery(query, null);
 
-        int columnIndexId = cursor.getColumnIndex(COLUMN_ID);
-        int columnIndexCategoria = cursor.getColumnIndex(COLUMN_CATEGORIA);
-        int columnIndexNombre = cursor.getColumnIndex(COLUMN_NOMBRE);
-        int columnIndexPrecio = cursor.getColumnIndex(COLUMN_PRECIO);
-        int columnIndexFecha = cursor.getColumnIndex(COLUMN_FECHA);
-        int columnIndexLatitud = cursor.getColumnIndex(COLUMN_LATITUD);
-        int columnIndexLongitud = cursor.getColumnIndex(COLUMN_LONGITUD);
+        int columnIndexId = cursor.getColumnIndex(DbHelper.COLUMN_ID);
+        int columnIndexCategoria = cursor.getColumnIndex(DbHelper.COLUMN_CATEGORIA);
+        int columnIndexNombre = cursor.getColumnIndex(DbHelper.COLUMN_NOMBRE_GASTO);
+        int columnIndexPrecio = cursor.getColumnIndex(DbHelper.COLUMN_PRECIO);
+        int columnIndexFecha = cursor.getColumnIndex(DbHelper.COLUMN_FECHA);
+        int columnIndexLatitud = cursor.getColumnIndex(DbHelper.COLUMN_LATITUD);
+        int columnIndexLongitud = cursor.getColumnIndex(DbHelper.COLUMN_LONGITUD);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(columnIndexId);
@@ -95,25 +65,27 @@ public class DbGastos extends SQLiteOpenHelper {
     }
 
     public boolean editarGasto(Gasto gasto) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_CATEGORIA, gasto.getCategoria());
-        values.put(COLUMN_NOMBRE, gasto.getNombre());
-        values.put(COLUMN_PRECIO, gasto.getPrecio());
-        values.put(COLUMN_FECHA, gasto.getFecha());
-        values.put(COLUMN_LATITUD, gasto.getLatitud());
-        values.put(COLUMN_LONGITUD, gasto.getLongitud());
-        int rowsAffected = db.update(TABLE_GASTOS, values, COLUMN_ID + " = ?",
+        values.put(DbHelper.COLUMN_CATEGORIA, gasto.getCategoria());
+        values.put(DbHelper.COLUMN_NOMBRE_GASTO, gasto.getNombre());
+        values.put(DbHelper.COLUMN_PRECIO, gasto.getPrecio());
+        values.put(DbHelper.COLUMN_FECHA, gasto.getFecha());
+        values.put(DbHelper.COLUMN_LATITUD, gasto.getLatitud());
+        values.put(DbHelper.COLUMN_LONGITUD, gasto.getLongitud());
+        int rowsAffected = db.update(DbHelper.TABLE_GASTOS, values, DbHelper.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(gasto.getId())});
         db.close();
         return rowsAffected > 0;
     }
 
     public boolean eliminarGasto(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        int rowsAffected = db.delete(TABLE_GASTOS, COLUMN_ID + " = ?",
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int rowsAffected = db.delete(DbHelper.TABLE_GASTOS, DbHelper.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)});
         db.close();
         return rowsAffected > 0;
     }
 }
+
+

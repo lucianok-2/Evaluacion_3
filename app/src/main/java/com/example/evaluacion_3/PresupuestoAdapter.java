@@ -40,17 +40,29 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
     }
 
     public class GastoViewHolder extends RecyclerView.ViewHolder {
+        private TextView textViewCategoria;
         private TextView textViewNombre;
+        private TextView textViewFecha;
+        private TextView textViewLatitud;
+        private TextView textViewLongitud;
         private TextView textViewPrecio;
 
         public GastoViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewCategoria = itemView.findViewById(R.id.textview_categoria);
             textViewNombre = itemView.findViewById(R.id.textview_nombre);
+            textViewFecha = itemView.findViewById(R.id.textview_fecha);
+            textViewLatitud = itemView.findViewById(R.id.textview_latitud);
+            textViewLongitud = itemView.findViewById(R.id.textview_longitud);
             textViewPrecio = itemView.findViewById(R.id.textview_precio);
         }
 
         public void bind(Gasto gasto) {
+            textViewCategoria.setText(gasto.getCategoria());
             textViewNombre.setText(gasto.getNombre());
+            textViewFecha.setText(gasto.getFecha());
+            textViewLatitud.setText(String.valueOf(gasto.getLatitud()));
+            textViewLongitud.setText(String.valueOf(gasto.getLongitud()));
             textViewPrecio.setText(String.valueOf(gasto.getPrecio()));
         }
     }

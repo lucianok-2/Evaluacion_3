@@ -82,8 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="Fecha"
-        android:focusable="false"
-        android:clickable="true" />
+        />
 
     <Button
         android:id="@+id/btnEnviar"
