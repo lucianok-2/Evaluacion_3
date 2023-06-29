@@ -15,10 +15,19 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
 
     private Context context;
     private ArrayList<Gasto> listaGastos;
+    private OnItemClickListener listener;
 
     public PresupuestoAdapter(Context context, ArrayList<Gasto> listaGastos) {
         this.context = context;
         this.listaGastos = listaGastos;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(long gastoId);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,6 +41,15 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
     public void onBindViewHolder(@NonNull GastoViewHolder holder, int position) {
         Gasto gasto = listaGastos.get(position);
         holder.bind(gasto);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(gasto.getId());
+                }
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.evaluacion_3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,7 @@ import com.example.evaluacion_3.db.DbGastos;
 
 import java.util.ArrayList;
 
-public class Presupuesto extends AppCompatActivity {
+public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter.OnItemClickListener {
 
     private EditText editTextNombreGasto;
     private EditText editTextCantidadGasto;
@@ -48,6 +49,9 @@ public class Presupuesto extends AppCompatActivity {
         RecyclerView recyclerViewMontos = findViewById(R.id.recyclerview_montos);
         recyclerViewMontos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewMontos.setAdapter(gastoAdapter);
+
+        // Configurar el listener del adaptador
+        gastoAdapter.setOnItemClickListener(this);
 
         // Actualizar la lista de gastos
         actualizarListaGastos();
@@ -87,6 +91,14 @@ public class Presupuesto extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemClick(long gastoId) {
+        // Abre la ventana de edición con el ID del gasto seleccionado
+        Intent intent = new Intent(Presupuesto.this, EditarGastoActivity.class);
+        intent.putExtra("gastoId", gastoId);
+        startActivity(intent);
     }
 
     private void actualizarListaGastos() {
