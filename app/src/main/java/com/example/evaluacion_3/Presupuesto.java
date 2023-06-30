@@ -1,6 +1,12 @@
 package com.example.evaluacion_3;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +34,9 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
     private DbGastos dbGastos;
     private ArrayList<Gasto> listaGastos;
     private PresupuestoAdapter gastoAdapter;
+
+    private static final int REQUEST_CODE_PERMISSION = 1;
+    private String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,14 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
 
         // Actualizar la lista de gastos
         actualizarListaGastos();
+
+        // Verificar y solicitar permisos de ubicación si es necesario
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(permissions, REQUEST_CODE_PERMISSION);
+            }
+        }
 
         // Configurar el botón de enviar
         btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +126,34 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
     }
 
     private double obtenerLatitud() {
-        // Código para obtener la latitud desde el GPS
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                return location.getLatitude();
+            } else {
+                Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "No se han concedido los permisos de ubicación", Toast.LENGTH_SHORT).show();
+        }
         return 0.0;
     }
 
     private double obtenerLongitud() {
-        // Código para obtener la longitud desde el GPS
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                return location.getLongitude();
+            } else {
+                Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "No se han concedido los permisos de ubicación", Toast.LENGTH_SHORT).show();
+        }
         return 0.0;
     }
 
