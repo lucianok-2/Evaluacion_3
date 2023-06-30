@@ -74,7 +74,6 @@ public class EditarGastoActivity extends AppCompatActivity {
                 });
 
                 // Configurar el botón de eliminar
-                // Configurar el botón de eliminar
                 btnEliminar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -115,6 +114,7 @@ public class EditarGastoActivity extends AppCompatActivity {
             // Actualizar el gasto en la base de datos
             if (dbGastos.editarGasto(gasto)) {
                 Toast.makeText(this, "Gasto actualizado correctamente", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
                 finish();
             } else {
                 Toast.makeText(this, "Error al actualizar el gasto", Toast.LENGTH_SHORT).show();
@@ -127,6 +127,7 @@ public class EditarGastoActivity extends AppCompatActivity {
     private void eliminarGasto(long gastoId) {
         if (dbGastos.eliminarGasto(gastoId)) {
             Toast.makeText(this, "Gasto eliminado correctamente", Toast.LENGTH_SHORT).show();
+            setResult(RESULT_OK);
             finish();
         } else {
             Toast.makeText(this, "Error al eliminar el gasto", Toast.LENGTH_SHORT).show();

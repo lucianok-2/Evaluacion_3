@@ -98,7 +98,7 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
         // Abre la ventana de edición con el ID del gasto seleccionado
         Intent intent = new Intent(Presupuesto.this, EditarGastoActivity.class);
         intent.putExtra("gastoId", gastoId);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_EDITAR_GASTO);
     }
 
     private void actualizarListaGastos() {
@@ -121,5 +121,18 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
         editTextNombreGasto.setText("");
         editTextCantidadGasto.setText("");
         editTextFecha.setText("");
+    }
+
+    private static final int REQUEST_CODE_EDITAR_GASTO = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDITAR_GASTO) {
+            if (resultCode == RESULT_OK) {
+                // Actualizar la lista de gastos al regresar de la Activity de edición
+                actualizarListaGastos();
+            }
+        }
     }
 }
