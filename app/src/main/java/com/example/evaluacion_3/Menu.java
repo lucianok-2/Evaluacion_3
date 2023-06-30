@@ -40,6 +40,14 @@ public class Menu extends AppCompatActivity {
                 openActivity("Settings");
             }
         });
+
+        Button mapButton = findViewById(R.id.btn_mapa);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity("Mapa");
+            }
+        });
     }
 
     private void openActivity(String activityName) {
@@ -50,6 +58,9 @@ public class Menu extends AppCompatActivity {
                 break;
             case "Settings":
                 activityClass = SettingsActivity.class;
+                break;
+            case "Mapa":
+                activityClass = MapActivity.class;
                 break;
             default:
                 return;
