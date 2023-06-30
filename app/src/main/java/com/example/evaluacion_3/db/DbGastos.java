@@ -103,7 +103,7 @@ public class DbGastos {
 
             String categoria = cursor.getString(columnIndexCategoria);
             String nombre = cursor.getString(columnIndexNombre);
-            float precio = cursor.getFloat(columnIndexPrecio);
+            int precio = cursor.getInt(columnIndexPrecio);
             String fecha = cursor.getString(columnIndexFecha);
             double latitud = cursor.getDouble(columnIndexLatitud);
             double longitud = cursor.getDouble(columnIndexLongitud);

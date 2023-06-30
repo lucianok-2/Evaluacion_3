@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "gastos.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     public static final String TABLE_GASTOS = "gastos";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_CATEGORIA = "categoria";
@@ -26,7 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_CATEGORIA + " TEXT NOT NULL, " +
                 COLUMN_NOMBRE_GASTO + " TEXT NOT NULL, " +
-                COLUMN_PRECIO + " REAL NOT NULL, " +
+                COLUMN_PRECIO + " INTEGER NOT NULL, " +
                 COLUMN_LATITUD + " REAL, " +
                 COLUMN_LONGITUD + " REAL, " +
                 COLUMN_FECHA + " TEXT" +

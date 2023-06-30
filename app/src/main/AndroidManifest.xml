@@ -15,11 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Evaluacion_3"
         tools:targetApi="31">
+        <activity
+            android:name=".Agenda"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB66esb2O-G0hs_EM9lKqmdPoPtPtVtqRg"
-            ></meta-data>
+            android:value="AIzaSyB66esb2O-G0hs_EM9lKqmdPoPtPtVtqRg" />
 
         <activity
             android:name=".MapActivity"

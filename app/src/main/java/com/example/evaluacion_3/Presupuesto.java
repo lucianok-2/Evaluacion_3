@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -82,13 +83,14 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
                 String nombreGasto = editTextNombreGasto.getText().toString();
                 String cantidadGastoString = editTextCantidadGasto.getText().toString();
                 String fecha = editTextFecha.getText().toString();
+                Log.d("numero",cantidadGastoString);
 
                 if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty()) {
                     // Obtener categoría seleccionada
                     String categoria = spinnerCategoria.getSelectedItem().toString();
 
                     // Convertir cantidad a número flotante
-                    float cantidadGasto = Float.parseFloat(cantidadGastoString);
+                    int cantidadGasto = Integer.parseInt(cantidadGastoString);
                     double latitud = obtenerLatitud(); // Obtener la latitud desde el GPS
                     double longitud = obtenerLongitud(); // Obtener la longitud desde el GPS
 

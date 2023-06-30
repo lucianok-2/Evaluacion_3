@@ -3,6 +3,7 @@ package com.example.evaluacion_3;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -97,13 +98,14 @@ public class EditarGastoActivity extends AppCompatActivity {
         String nombreGasto = editTextNombreGasto.getText().toString();
         String cantidadGastoString = editTextCantidadGasto.getText().toString();
         String fecha = editTextFecha.getText().toString();
+        Log.d("numero",cantidadGastoString);
 
         if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty()) {
             // Obtener la categoría seleccionada
             String categoria = spinnerCategoria.getSelectedItem().toString();
 
             // Convertir la cantidad a número flotante
-            float cantidadGasto = Float.parseFloat(cantidadGastoString);
+            int cantidadGasto = Integer.parseInt(cantidadGastoString);
 
             // Actualizar los datos del gasto
             gasto.setNombre(nombreGasto);

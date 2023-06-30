@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.evaluacion_3.R;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.GastoViewHolder> {
@@ -81,7 +84,12 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
             textViewFecha.setText(gasto.getFecha());
             textViewLatitud.setText(String.valueOf(gasto.getLatitud()));
             textViewLongitud.setText(String.valueOf(gasto.getLongitud()));
-            textViewPrecio.setText(String.valueOf(gasto.getPrecio()));
+
+
+            DecimalFormat decimalFormat = new DecimalFormat("#");
+            String precioFormateado = decimalFormat.format(gasto.getPrecio());
+
+            textViewPrecio.setText(precioFormateado);
         }
     }
 }
