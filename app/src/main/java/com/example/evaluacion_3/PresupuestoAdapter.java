@@ -28,6 +28,8 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
     }
 
     public void setGastos(ArrayList<Gasto> gastos) {
+        listaGastos = gastos;
+
 
     }
 

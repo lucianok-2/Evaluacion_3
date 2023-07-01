@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Spinner_orden"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,9 +13,17 @@
 
         <SearchView
             android:id="@+id/busqueda"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:queryHint="Buscar por nombre"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:queryHint="Buscar por nombre" />
+
+        <Spinner
+            android:id="@+id/spinner_orden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/categorias_orden"
+             />
 
     </LinearLayout>
 
@@ -23,24 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-
-
-        <TextView
-            android:id="@+id/textview_restante"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Restante: "
-            android:textSize="18sp" />
-
-    </LinearLayout>
 
     <Spinner
         android:id="@+id/spinner_categoria"
