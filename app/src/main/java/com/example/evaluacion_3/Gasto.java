@@ -1,15 +1,17 @@
 package com.example.evaluacion_3;
 
+import java.util.Date;
+
 public class Gasto {
     private long id;
     private String categoria;
     private String nombre;
-    private int  precio;
-    private String fecha;
+    private int precio;
+    private Date fecha;
     private double latitud;
     private double longitud;
 
-    public Gasto(String categoria, String nombre, int precio, String fecha, double latitud, double longitud) {
+    public Gasto(String categoria, String nombre, int precio, Date fecha, double latitud, double longitud) {
         this.categoria = categoria;
         this.nombre = nombre;
         this.precio = precio;
@@ -42,11 +44,11 @@ public class Gasto {
         this.precio = precio;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -63,5 +65,6 @@ public class Gasto {
     }
 
     public void setNombre(String nombreGasto) {
+        this.nombre = nombreGasto;
     }
 }

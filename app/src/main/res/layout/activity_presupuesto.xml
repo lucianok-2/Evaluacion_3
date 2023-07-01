@@ -10,21 +10,11 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textview_presupuesto_total"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Presupuesto: "
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textview_fecha_pago"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fecha de Pago: "
-            android:textSize="18sp" />
+        <SearchView
+            android:id="@+id/busqueda"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:queryHint="Buscar por nombre"/>
 
     </LinearLayout>
 

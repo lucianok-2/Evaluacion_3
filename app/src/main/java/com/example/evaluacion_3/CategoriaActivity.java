@@ -1,7 +1,9 @@
 package com.example.evaluacion_3;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,7 +33,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
         // Obtener el presupuesto desde las preferencias compartidas
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        presupuesto = sharedPreferences.getInt("Presupuesto",0);
+        presupuesto = sharedPreferences.getInt("Presupuesto", 0);
 
         TextView presupuestoTextView = findViewById(R.id.presupuestoTextView);
         presupuestoTextView.setText("Presupuesto: " + presupuesto);
@@ -50,6 +52,19 @@ public class CategoriaActivity extends AppCompatActivity {
         // Crear el adaptador y establecerlo en el RecyclerView
         categoriaAdapter = new CategoriaAdapter(this, categorias);
         recyclerView.setAdapter(categoriaAdapter);
+
+
+        // Establecer el listener de clics en el adaptador
+        categoriaAdapter.setOnItemClickListener(new CategoriaAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Categoria categoria = categorias.get(position);
+                Intent intent = new Intent(CategoriaActivity.this, GastosCategoriaActivity.class);
+                intent.putExtra("categoria", categoria.getNombre());
+                startActivity(intent);
+            }
+        });
+
     }
 
     private ArrayList<String> obtenerNombresCategorias(DbGastos dbGastos) {
@@ -64,5 +79,13 @@ public class CategoriaActivity extends AppCompatActivity {
         }
 
         return nombresCategorias;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

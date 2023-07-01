@@ -17,7 +17,7 @@ public class EditarGastoActivity extends AppCompatActivity {
 
     private EditText editTextNombreGasto;
     private EditText editTextCantidadGasto;
-    private EditText editTextFecha;
+
     private Button btnGuardar;
     private Button btnEliminar;
     private Spinner spinnerCategoria;
@@ -33,7 +33,7 @@ public class EditarGastoActivity extends AppCompatActivity {
         // Inicializar vistas
         editTextNombreGasto = findViewById(R.id.edittext_nombre_gasto);
         editTextCantidadGasto = findViewById(R.id.edittext_cantidad_gasto);
-        editTextFecha = findViewById(R.id.edittext_fecha);
+
         btnGuardar = findViewById(R.id.btn_guardar_cambios);
         btnEliminar = findViewById(R.id.btn_eliminar_gasto);
         spinnerCategoria = findViewById(R.id.spinner_categoria_editar);
@@ -53,7 +53,7 @@ public class EditarGastoActivity extends AppCompatActivity {
                 // Mostrar los detalles del gasto en los campos de edición
                 editTextNombreGasto.setText(gasto.getNombre());
                 editTextCantidadGasto.setText(String.valueOf(gasto.getPrecio()));
-                editTextFecha.setText(gasto.getFecha());
+
 
                 // Configurar el spinner con la categoría seleccionada
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -97,7 +97,7 @@ public class EditarGastoActivity extends AppCompatActivity {
     private void guardarCambios() {
         String nombreGasto = editTextNombreGasto.getText().toString();
         String cantidadGastoString = editTextCantidadGasto.getText().toString();
-        String fecha = editTextFecha.getText().toString();
+
 
 
         if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty()) {
@@ -110,7 +110,7 @@ public class EditarGastoActivity extends AppCompatActivity {
             // Actualizar los datos del gasto
             gasto.setNombre(nombreGasto);
             gasto.setPrecio(cantidadGasto);
-            gasto.setFecha(fecha);
+
             gasto.setCategoria(categoria);
 
             // Actualizar el gasto en la base de datos

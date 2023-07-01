@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import com.example.evaluacion_3.db.DbGastos;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter.OnItemClickListener {
 
@@ -86,7 +88,6 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
                 String cantidadGastoString = editTextCantidadGasto.getText().toString();
 
                 Calendar calendar = Calendar.getInstance();
-                String fecha = DateFormat.getDateInstance().format(calendar.getTime());
 
                 Log.d("numero",cantidadGastoString);
 
@@ -99,8 +100,8 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
                     double latitud = obtenerLatitud(); // Obtener la latitud desde el GPS
                     double longitud = obtenerLongitud(); // Obtener la longitud desde el GPS
 
-                    // Crear nuevo gasto
-                    Gasto gasto = new Gasto(categoria, nombreGasto, cantidadGasto, fecha, latitud, longitud);
+                    // Crear nuevo gasto con la fecha actual
+                    Gasto gasto = new Gasto(categoria, nombreGasto, cantidadGasto, calendar.getTime(), latitud, longitud);
                     long id = dbGastos.insertarGasto(gasto);
 
                     if (id != -1) {
@@ -167,7 +168,6 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
     private void limpiarCampos() {
         editTextNombreGasto.setText("");
         editTextCantidadGasto.setText("");
-
     }
 
     private static final int REQUEST_CODE_EDITAR_GASTO = 1;
@@ -181,5 +181,13 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
                 actualizarListaGastos();
             }
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

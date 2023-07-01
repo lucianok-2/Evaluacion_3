@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.evaluacion_3.R;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.GastoViewHolder> {
 
@@ -23,6 +25,10 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
     public PresupuestoAdapter(Context context, ArrayList<Gasto> listaGastos) {
         this.context = context;
         this.listaGastos = listaGastos;
+    }
+
+    public void setGastos(ArrayList<Gasto> gastos) {
+
     }
 
     public interface OnItemClickListener {
@@ -81,15 +87,19 @@ public class PresupuestoAdapter extends RecyclerView.Adapter<PresupuestoAdapter.
         public void bind(Gasto gasto) {
             textViewCategoria.setText(gasto.getCategoria());
             textViewNombre.setText(gasto.getNombre());
-            textViewFecha.setText(gasto.getFecha());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String fechaFormateada = dateFormat.format(gasto.getFecha());
+            textViewFecha.setText(fechaFormateada);
+
             textViewLatitud.setText(String.valueOf(gasto.getLatitud()));
             textViewLongitud.setText(String.valueOf(gasto.getLongitud()));
-
 
             DecimalFormat decimalFormat = new DecimalFormat("#");
             String precioFormateado = decimalFormat.format(gasto.getPrecio());
 
             textViewPrecio.setText(precioFormateado);
         }
+
     }
 }

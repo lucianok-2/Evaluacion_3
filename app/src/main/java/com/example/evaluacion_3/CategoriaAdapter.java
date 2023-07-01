@@ -18,6 +18,15 @@ import java.util.ArrayList;
 public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.CategoriaViewHolder> {
     private Context context;
     private ArrayList<Categoria> categorias;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
 
     public CategoriaAdapter(Context context, ArrayList<Categoria> categorias) {
         this.context = context;
@@ -28,7 +37,7 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Cate
     @Override
     public CategoriaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_categoria, parent, false);
-        return new CategoriaViewHolder(view);
+        return new CategoriaViewHolder(view, onItemClickListener);
     }
 
     @Override
@@ -56,11 +65,23 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Cate
         TextView tvTotalGastado;
         TextView tvPorcentaje;
 
-        public CategoriaViewHolder(@NonNull View itemView) {
+        public CategoriaViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombre);
             tvTotalGastado = itemView.findViewById(R.id.tvTotalGastado);
             tvPorcentaje = itemView.findViewById(R.id.tvPorcentaje);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
