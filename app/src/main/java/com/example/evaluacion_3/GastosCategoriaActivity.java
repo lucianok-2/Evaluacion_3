@@ -14,17 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.evaluacion_3.db.DbGastos;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class GastosCategoriaActivity extends AppCompatActivity {
+
     private RecyclerView recyclerView;
     private PresupuestoAdapter gastosAdapter;
     private ArrayList<Gasto> gastos;
+    private ArrayList<Gasto> gastosFiltrados;
     private String categoria;
     private Button btnSelectDate;
     private Calendar selectedDate;
+    private SimpleDateFormat dateFormatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class GastosCategoriaActivity extends AppCompatActivity {
         // Configurar el botón para seleccionar la fecha
         btnSelectDate = findViewById(R.id.btnSelectDate);
         selectedDate = Calendar.getInstance();
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         btnSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +79,7 @@ public class GastosCategoriaActivity extends AppCompatActivity {
         }
         return total;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -109,19 +116,23 @@ public class GastosCategoriaActivity extends AppCompatActivity {
 
     private void filtrarGastosPorFecha() {
         // Obtener la fecha seleccionada
-        long fechaSeleccionada = selectedDate.getTimeInMillis();
+        Date fechaSeleccionada = selectedDate.getTime();
 
         // Filtrar los gastos por la fecha seleccionada
-        ArrayList<Gasto> gastosFiltrados = new ArrayList<>();
+        gastosFiltrados = new ArrayList<>();
         for (Gasto gasto : gastos) {
-            if (gasto.getFecha().equals(new Date(fechaSeleccionada))) {
+            if (gasto.getFecha().compareTo(fechaSeleccionada) >= 0) {
                 gastosFiltrados.add(gasto);
             }
         }
 
+        // Verificar si hay gastos filtrados para mostrar
+        if (gastosFiltrados.isEmpty()) {
+            // Mostrar un mensaje de gastos no encontrados o realizar alguna acción adicional
+        }
+
         // Actualizar el adaptador con los gastos filtrados
         gastosAdapter.setGastos(gastosFiltrados);
-        gastosAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(gastosAdapter);
     }
-
 }

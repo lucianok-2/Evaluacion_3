@@ -1,7 +1,11 @@
 package com.example.evaluacion_3;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +18,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -22,6 +31,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap googleMap;
     private ArrayList<Gasto> listaGastos;
     private DbGastos dbGastos;
+    private Button btnDatePicker;
+    private Calendar calendar;
+    private DatePickerDialog.OnDateSetListener datePickerListener;
+    private SimpleDateFormat dateFormatter;
+    private Date selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +52,72 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapView = findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
+        // Inicializar el botón de fecha y su listener
+        btnDatePicker = findViewById(R.id.btnDatePicker);
+        calendar = Calendar.getInstance();
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        datePickerListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(year, month, dayOfMonth);
+                selectedDate = calendar.getTime();
+                filterMapPoints();
+            }
+        };
+
+        // Establecer el listener para el botón de fecha
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         googleMap = map;
 
-        // Agregar marcadores para cada gasto en la lista
         for (Gasto gasto : listaGastos) {
-            LatLng latLng = new LatLng(gasto.getLatitud(), gasto.getLongitud());
+            double lat = gasto.getLatitud();
+            double lng = gasto.getLongitud();
+
+            // Generar un número aleatorio entre -0.0001 y 0.0001 para el desplazamiento en grados
+            Random random = new Random();
+            double latOffset = (random.nextDouble() - 0.5) / 10000.0; // Rango de -0.0001 a 0.0001 para la latitud
+            double lngOffset = (random.nextDouble() - 0.5) / 10000.0; // Rango de -0.0001 a 0.0001 para la longitud
+
+            LatLng latLng = new LatLng(lat + latOffset, lng + lngOffset);
             googleMap.addMarker(new MarkerOptions().position(latLng).title(gasto.getNombre()).snippet("Precio: $" + gasto.getPrecio()));
         }
 
         // Ajustar la cámara para mostrar todos los marcadores
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Gasto gasto : listaGastos) {
-            builder.include(new LatLng(gasto.getLatitud(), gasto.getLongitud()));
+            LatLng latLng = new LatLng(gasto.getLatitud(), gasto.getLongitud());
+            builder.include(latLng);
         }
         LatLngBounds bounds = builder.build();
         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
     }
+
+    private void showDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private void filterMapPoints() {
+        googleMap.clear();
+        for (Gasto gasto : listaGastos) {
+            if (selectedDate == null || gasto.getFecha().compareTo(selectedDate) >= 0) {
+                LatLng latLng = new LatLng(gasto.getLatitud(), gasto.getLongitud());
+                googleMap.addMarker(new MarkerOptions().position(latLng).title(gasto.getNombre()).snippet("Precio: $" + gasto.getPrecio()));
+            }
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

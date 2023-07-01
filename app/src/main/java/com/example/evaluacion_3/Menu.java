@@ -108,12 +108,10 @@ public class Menu extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Obtener el presupuesto ingresado por el usuario
-                        int presupuesto = Integer.parseInt(editTextPresupuesto.getText().toString());
+                        int newPresupuesto = Integer.parseInt(editTextPresupuesto.getText().toString());
 
-
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("Presupuesto", presupuesto);
-                        editor.apply();
+                        // Actualizar el presupuesto en las preferencias
+                        updatePresupuesto(newPresupuesto);
 
                         // Abrir la actividad de Presupuesto
                         openActivity("Presupuesto");
@@ -129,5 +127,11 @@ public class Menu extends AppCompatActivity {
         // Mostrar el diálogo
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void updatePresupuesto(int presupuesto) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("Presupuesto", presupuesto);
+        editor.apply();
     }
 }
