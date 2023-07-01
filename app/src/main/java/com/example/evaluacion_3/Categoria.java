@@ -46,7 +46,7 @@ public class Categoria {
             return 0;
         }
 
-        double porcentaje = ((double) totalGastado / presupuesto) * 1000;
+        double porcentaje = ((double) totalGastado / presupuesto) * 100;
         return (int) porcentaje;
     }
 }

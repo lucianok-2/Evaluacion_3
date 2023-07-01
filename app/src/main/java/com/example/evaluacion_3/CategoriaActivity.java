@@ -1,8 +1,9 @@
-// CategoriaActivity.java
 package com.example.evaluacion_3;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -30,8 +31,10 @@ public class CategoriaActivity extends AppCompatActivity {
 
         // Obtener el presupuesto desde las preferencias compartidas
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        float presupuestoFloat = sharedPreferences.getFloat("Presupuesto", 0);
-        presupuesto = (int) presupuestoFloat;
+        presupuesto = sharedPreferences.getInt("Presupuesto",0);
+
+        TextView presupuestoTextView = findViewById(R.id.presupuestoTextView);
+        presupuestoTextView.setText("Presupuesto: " + presupuesto);
 
         // Inicializar la lista de categorías
         categorias = new ArrayList<>();

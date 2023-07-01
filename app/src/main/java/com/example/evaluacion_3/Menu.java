@@ -27,7 +27,7 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        float presupuesto = sharedPreferences.getFloat("Presupuesto", 0);
+        int presupuesto = sharedPreferences.getInt("Presupuesto", 0);
 
         if (presupuesto == 0) {
             showPresupuestoDialog();
@@ -110,9 +110,9 @@ public class Menu extends AppCompatActivity {
                         // Obtener el presupuesto ingresado por el usuario
                         int presupuesto = Integer.parseInt(editTextPresupuesto.getText().toString());
 
-                        // Guardar el presupuesto en las preferencias compartidas
+
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putFloat("Presupuesto", presupuesto);
+                        editor.putInt("Presupuesto", presupuesto);
                         editor.apply();
 
                         // Abrir la actividad de Presupuesto
