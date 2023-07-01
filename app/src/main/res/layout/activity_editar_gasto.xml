@@ -27,7 +27,7 @@
         android:id="@+id/edittext_cantidad_gasto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:hint="Ingrese la cantidad del gasto" />
 
     <TextView

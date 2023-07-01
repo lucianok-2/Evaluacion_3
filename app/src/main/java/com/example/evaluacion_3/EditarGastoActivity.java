@@ -98,7 +98,7 @@ public class EditarGastoActivity extends AppCompatActivity {
         String nombreGasto = editTextNombreGasto.getText().toString();
         String cantidadGastoString = editTextCantidadGasto.getText().toString();
         String fecha = editTextFecha.getText().toString();
-        Log.d("numero",cantidadGastoString);
+
 
         if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty()) {
             // Obtener la categoría seleccionada

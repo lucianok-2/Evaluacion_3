@@ -73,16 +73,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="Cantidad del gasto"
-        android:inputType="numberDecimal" />
+        android:inputType="number" />
 
-
-    <EditText
-        android:id="@+id/edittext_fecha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Fecha"
-        />
 
     <Button
         android:id="@+id/btnEnviar"

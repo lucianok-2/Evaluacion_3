@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.evaluacion_3.db.DbGastos;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter.OnItemClickListener {
 
@@ -47,7 +49,7 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
         // Inicializar vistas
         editTextNombreGasto = findViewById(R.id.edittext_nombre_gasto);
         editTextCantidadGasto = findViewById(R.id.edittext_cantidad_gasto);
-        editTextFecha = findViewById(R.id.edittext_fecha);
+
         btnEnviar = findViewById(R.id.btnEnviar);
         spinnerCategoria = findViewById(R.id.spinner_categoria);
 
@@ -82,7 +84,10 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
                 // Obtener datos del formulario
                 String nombreGasto = editTextNombreGasto.getText().toString();
                 String cantidadGastoString = editTextCantidadGasto.getText().toString();
-                String fecha = editTextFecha.getText().toString();
+
+                Calendar calendar = Calendar.getInstance();
+                String fecha = DateFormat.getDateInstance().format(calendar.getTime());
+
                 Log.d("numero",cantidadGastoString);
 
                 if (!nombreGasto.isEmpty() && !cantidadGastoString.isEmpty()) {
@@ -162,7 +167,7 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
     private void limpiarCampos() {
         editTextNombreGasto.setText("");
         editTextCantidadGasto.setText("");
-        editTextFecha.setText("");
+
     }
 
     private static final int REQUEST_CODE_EDITAR_GASTO = 1;

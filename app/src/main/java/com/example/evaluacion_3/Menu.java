@@ -30,7 +30,6 @@ public class Menu extends AppCompatActivity {
         float presupuesto = sharedPreferences.getFloat("Presupuesto", 0);
 
         if (presupuesto == 0) {
-
             showPresupuestoDialog();
         }
 
@@ -38,14 +37,11 @@ public class Menu extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             DbHelper dbHelper = new DbHelper(Menu.this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
+
             @Override
             public void onClick(View view) {
                 openActivity("Presupuesto");
-
             }
-
-
-
         });
 
         Button preferencesButton = findViewById(R.id.btn_settings3);
@@ -64,8 +60,14 @@ public class Menu extends AppCompatActivity {
             }
         });
 
+        Button walletButton = findViewById(R.id.btn_wallet);
+        walletButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity("Categorias");
+            }
+        });
     }
-
 
     private void openActivity(String activityName) {
         Class<?> activityClass;
@@ -78,6 +80,9 @@ public class Menu extends AppCompatActivity {
                 break;
             case "Mapa":
                 activityClass = MapActivity.class;
+                break;
+            case "Categorias":
+                activityClass = CategoriaActivity.class;
                 break;
             default:
                 return;
@@ -103,7 +108,7 @@ public class Menu extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Obtener el presupuesto ingresado por el usuario
-                        float presupuesto = Float.parseFloat(editTextPresupuesto.getText().toString());
+                        int presupuesto = Integer.parseInt(editTextPresupuesto.getText().toString());
 
                         // Guardar el presupuesto en las preferencias compartidas
                         SharedPreferences.Editor editor = sharedPreferences.edit();

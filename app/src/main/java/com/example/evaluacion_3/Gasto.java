@@ -4,12 +4,12 @@ public class Gasto {
     private long id;
     private String categoria;
     private String nombre;
-    private float precio;
+    private int  precio;
     private String fecha;
     private double latitud;
     private double longitud;
 
-    public Gasto(String categoria, String nombre, float precio, String fecha, double latitud, double longitud) {
+    public Gasto(String categoria, String nombre, int precio, String fecha, double latitud, double longitud) {
         this.categoria = categoria;
         this.nombre = nombre;
         this.precio = precio;
@@ -34,11 +34,11 @@ public class Gasto {
         return nombre;
     }
 
-    public float getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 
