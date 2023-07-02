@@ -50,7 +50,7 @@ public class Presupuesto extends AppCompatActivity implements PresupuestoAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_presupuesto);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Inicializar vistas
         editTextNombreGasto = findViewById(R.id.edittext_nombre_gasto);
         editTextCantidadGasto = findViewById(R.id.edittext_cantidad_gasto);

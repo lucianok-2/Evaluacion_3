@@ -29,7 +29,7 @@ public class EditarGastoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_gasto);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Inicializar vistas
         editTextNombreGasto = findViewById(R.id.edittext_nombre_gasto);
         editTextCantidadGasto = findViewById(R.id.edittext_cantidad_gasto);

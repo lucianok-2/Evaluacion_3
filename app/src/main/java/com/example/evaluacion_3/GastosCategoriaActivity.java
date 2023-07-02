@@ -35,7 +35,7 @@ public class GastosCategoriaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gastos_categoria);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Obtener el nombre de la categoría seleccionada del Intent
         categoria = getIntent().getStringExtra("categoria");
 

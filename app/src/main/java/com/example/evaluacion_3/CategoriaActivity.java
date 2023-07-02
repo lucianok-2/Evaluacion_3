@@ -26,6 +26,7 @@ public class CategoriaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoria);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Inicializar el RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
