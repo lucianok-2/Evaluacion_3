@@ -16,6 +16,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapView mapView;
     private GoogleMap googleMap;
     private ArrayList<Gasto> listaGastos;
+    private ArrayList<Marker> marcadores;
     private DbGastos dbGastos;
     private Button btnDatePicker;
     private Calendar calendar;
@@ -42,11 +44,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Inicializar la base de datos
         dbGastos = new DbGastos(this);
 
         // Obtener la lista de gastos desde la base de datos
         listaGastos = dbGastos.obtenerTodosLosGastos();
+
+        // Inicializar la lista de marcadores
+        marcadores = new ArrayList<>();
 
         // Inicializar el MapView
         mapView = findViewById(R.id.map_view);
@@ -79,6 +85,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap map) {
         googleMap = map;
 
+        // Agregar todos los marcadores a la lista y al mapa
         for (Gasto gasto : listaGastos) {
             double lat = gasto.getLatitud();
             double lng = gasto.getLongitud();
@@ -89,7 +96,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             double lngOffset = (random.nextDouble() - 0.5) / 10000.0; // Rango de -0.0001 a 0.0001 para la longitud
 
             LatLng latLng = new LatLng(lat + latOffset, lng + lngOffset);
-            googleMap.addMarker(new MarkerOptions().position(latLng).title(gasto.getNombre()).snippet("Precio: $" + gasto.getPrecio()));
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng).title(gasto.getNombre()).snippet("Precio: $" + gasto.getPrecio()));
+            marker.setTag(gasto);
+            marcadores.add(marker);
         }
 
         // Ajustar la cámara para mostrar todos los marcadores
@@ -109,11 +118,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void filterMapPoints() {
-        googleMap.clear();
-        for (Gasto gasto : listaGastos) {
+        for (Marker marker : marcadores) {
+            Gasto gasto = (Gasto) marker.getTag();
             if (selectedDate == null || gasto.getFecha().compareTo(selectedDate) >= 0) {
-                LatLng latLng = new LatLng(gasto.getLatitud(), gasto.getLongitud());
-                googleMap.addMarker(new MarkerOptions().position(latLng).title(gasto.getNombre()).snippet("Precio: $" + gasto.getPrecio()));
+                marker.setVisible(true);
+            } else {
+                marker.setVisible(false);
             }
         }
     }
