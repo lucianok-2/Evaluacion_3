@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.evaluacion_3.db.DbHelper;
 
@@ -25,6 +26,7 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int presupuesto = sharedPreferences.getInt("Presupuesto", 0);
