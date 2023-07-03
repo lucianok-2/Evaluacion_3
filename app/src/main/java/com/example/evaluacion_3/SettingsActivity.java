@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -33,15 +34,16 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     }
 
     @Override
@@ -71,8 +73,12 @@ public class SettingsActivity extends AppCompatActivity {
             presupuestoPreference = findPreference("pref_key_presupuesto");
             fechaPagoPreference = findPreference("pref_key_fecha_pago");
 
-            // Establecer el resumen de la preferencia de fecha de pago
+            // Obtener los valores almacenados en SharedPreferences
+            int presupuesto = sharedPreferences.getInt("Presupuesto", 0);
             long fechaPago = sharedPreferences.getLong("FechaPago", 0);
+
+            // Establecer los valores en los campos correspondientes
+            presupuestoPreference.setText(String.valueOf(presupuesto));
             if (fechaPago > 0) {
                 Date fechaPagoDate = new Date(fechaPago);
                 String formattedFechaPago = dateFormat.format(fechaPagoDate);
@@ -105,10 +111,37 @@ public class SettingsActivity extends AppCompatActivity {
             editor.apply();
         }
 
-
         private void showFechaPagoDialog() {
-            // Implementa el código para mostrar un diálogo de selección de fecha de pago
-            // y actualizar la preferencia correspondiente con la nueva fecha seleccionada.
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Seleccionar Fecha de Pago");
+
+            View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_fecha_pago, null);
+            builder.setView(view);
+
+            Spinner spinnerFechaPago = view.findViewById(R.id.spinnerFechaPago);
+            spinnerFechaPago.setAdapter(ArrayAdapter.createFromResource(requireContext(),
+                    R.array.fecha_pago_entries, android.R.layout.simple_spinner_dropdown_item));
+
+            builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String fechaPago = spinnerFechaPago.getSelectedItem().toString();
+                    guardarFechaPago(fechaPago);
+                }
+            });
+
+            builder.setNegativeButton("Cancelar", null);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
+
+        private void guardarFechaPago(String fechaPago) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("pref_key_fecha_pago", fechaPago);
+            editor.apply();
+            fechaPagoPreference.setSummary(fechaPago);
+        }
+
     }
 }

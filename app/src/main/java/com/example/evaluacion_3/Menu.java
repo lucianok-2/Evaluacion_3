@@ -100,6 +100,13 @@ public class Menu extends AppCompatActivity {
         EditText editTextPresupuesto = dialogView.findViewById(R.id.editTextPresupuesto);
         Spinner spinnerFechaPago = dialogView.findViewById(R.id.spinnerFechaPago);
 
+        // Obtener la fecha de pago inicial de las preferencias
+        String fechaPagoInicial = sharedPreferences.getString("pref_key_fecha_pago", "Pago el 5");
+
+        // Establecer la fecha de pago inicial en el Spinner
+        int spinnerPosition = getSpinnerPosition(spinnerFechaPago, fechaPagoInicial);
+        spinnerFechaPago.setSelection(spinnerPosition);
+
         // Crear el diálogo
         AlertDialog.Builder builder = new AlertDialog.Builder(Menu.this);
         builder.setView(dialogView)
@@ -112,6 +119,12 @@ public class Menu extends AppCompatActivity {
 
                         // Actualizar el presupuesto en las preferencias
                         updatePresupuesto(newPresupuesto);
+
+                        // Obtener la fecha de pago seleccionada por el usuario
+                        String fechaPagoSeleccionada = spinnerFechaPago.getSelectedItem().toString();
+
+                        // Guardar la fecha de pago inicial en las preferencias
+                        guardarFechaPagoInicial(fechaPagoSeleccionada);
 
                         // Abrir la actividad de Presupuesto
                         openActivity("Presupuesto");
@@ -129,9 +142,24 @@ public class Menu extends AppCompatActivity {
         dialog.show();
     }
 
+    private int getSpinnerPosition(Spinner spinner, String value) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equals(value)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     private void updatePresupuesto(int presupuesto) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("Presupuesto", presupuesto);
+        editor.apply();
+    }
+
+    private void guardarFechaPagoInicial(String fechaPagoInicial) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("pref_key_fecha_pago", fechaPagoInicial);
         editor.apply();
     }
 }

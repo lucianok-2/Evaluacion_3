@@ -14,13 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.evaluacion_3.db.DbGastos;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class CategoriaActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CategoriaAdapter categoriaAdapter;
     private ArrayList<Categoria> categorias;
     private int presupuesto;
+    private TextView fechaPagoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,12 @@ public class CategoriaActivity extends AppCompatActivity {
         TextView presupuestoTextView = findViewById(R.id.presupuestoTextView);
         presupuestoTextView.setText("Presupuesto: " + presupuesto);
 
+        // Obtener la fecha de pago desde las preferencias compartidas
+        String fechaPago = sharedPreferences.getString("pref_key_fecha_pago", "");
+
+        fechaPagoTextView = findViewById(R.id.fechaPagoTextView);
+        fechaPagoTextView.setText("Fecha de pago: " + fechaPago);
+
         // Inicializar la lista de categorías
         categorias = new ArrayList<>();
 
@@ -54,7 +64,6 @@ public class CategoriaActivity extends AppCompatActivity {
         categoriaAdapter = new CategoriaAdapter(this, categorias);
         recyclerView.setAdapter(categoriaAdapter);
 
-
         // Establecer el listener de clics en el adaptador
         categoriaAdapter.setOnItemClickListener(new CategoriaAdapter.OnItemClickListener() {
             @Override
@@ -65,7 +74,6 @@ public class CategoriaActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private ArrayList<String> obtenerNombresCategorias(DbGastos dbGastos) {
@@ -81,6 +89,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
         return nombresCategorias;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
